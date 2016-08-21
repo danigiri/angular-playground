@@ -17,6 +17,8 @@ _temp
 !typings/typings.d.ts
 !wallaby.js
 
+app/*.js
+app/*.map
 app/**/*.js
 app/**/*.map
 bower_components
