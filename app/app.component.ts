@@ -1,23 +1,7 @@
 import { Component } from '@angular/core';
-
-export class Hero {
-	id: number;
-	name: string;
-}
-
-const HEROES: Hero[] = [
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' },
-  { id: 21, name: 'Grimer' }
-];
+import { Hero } from './hero';
+import { HeroesService } from './heroes-service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
 	selector: 'my-app',
@@ -25,11 +9,17 @@ const HEROES: Hero[] = [
 				<h1>{{title}}</h1>
 				<h2>My Heroes</h2>
 				<ul class="heroes">
-					<li *ngFor="let hero of heroes" (click)="onSelect(hero)">
+					<li *ngFor="let hero of heroes"
+						[class.selected]="hero === selectedHero"
+						(click)="onSelected(hero)">
 					  <span class="badge">{{hero.id}}</span> {{hero.name}}
 					</li>
 				</ul>
+				<my-hero-detail [hero]="selectedHero"  ></my-hero-detail>
 				`,
+	providers:	[
+					HeroesService
+				],
 	styles: [`
 			  .selected {
 			    background-color: #CFD8DC !important;
@@ -53,7 +43,7 @@ const HEROES: Hero[] = [
 			  }
 			  .heroes li.selected:hover {
 			    background-color: #BBD8DC !important;
-			    color: white;
+			    color: red;
 			  }
 			  .heroes li:hover {
 			    color: #607D8B;
@@ -82,7 +72,19 @@ const HEROES: Hero[] = [
 })
 
 export class AppComponent {
+
 	title = 'Tour of Heroes';
+	heroes: Array<Hero>;
 	selectedHero: Hero;
-	heroes = HEROES;
+
+	constructor(private heroesService: HeroesService) {}
+
+	ngOnInit() {
+      this.heroes = this.heroesService.get();
+    }
+	onSelected(hero: Hero): void {
+		console.log(hero);
+		this.selectedHero = hero;
+	}
+
 }
