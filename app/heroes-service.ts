@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable	} from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Observer  } from 'rxjs/Observer';
 import { Hero } from './hero';
 
 const HEROES: Hero[] = [
@@ -21,7 +21,12 @@ const HEROES: Hero[] = [
 export class HeroesService {
 
 	get() {
-		return HEROES;
+		return HEROES; 
 	}
 
+	getObservable() {
+		return Observable.create((o:Observer<Array<Hero>>) => {
+			o.next(HEROES);
+		});
+	} 
 }

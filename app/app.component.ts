@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Hero } from './hero';
 import { HeroesService } from './heroes-service';
 import { Observable } from 'rxjs/Observable';
+import { Observer  } from 'rxjs/Observer';
 
 @Component({
 	selector: 'my-app',
@@ -80,7 +81,10 @@ export class AppComponent {
 	constructor(private heroesService: HeroesService) {}
 
 	ngOnInit() {
-      this.heroes = this.heroesService.get();
+      //this.heroes = this.heroesService.get();
+	  this.heroesService.getObservable().subscribe(
+			  (h:Array<Hero>) => this.heroes = h
+			  );
     }
 	onSelected(hero: Hero): void {
 		console.log(hero);
