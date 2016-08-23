@@ -8,13 +8,12 @@ import { HeroesService } from './heroes-service';
 @Component({
 	selector: 'heroes-list',
 	template: `
-				<h2>My Heroes</h2>
 				<ul class="heroes">
 					<li *ngFor="let hero of heroes"
 						[class.selected]="hero === selectedHero"
 						>
-					  <span class="badge">{{hero.id}}</span> 
-					  <a [routerLink]="['/heroes',hero.id]">{{hero.name}}</a>
+					  <span class="badge">{{hero.id}}</span> {{hero.name}} 
+					  <a [routerLink]="['/heroes',hero.id]"><small>[Edit]</small></a>
 					</li>
 				</ul>
 				<!--my-hero-detail [hero]="selectedHero"  ></my-hero-detail-->

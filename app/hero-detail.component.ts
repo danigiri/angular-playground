@@ -31,13 +31,13 @@ export class HeroDetailComponent {
 	
 	ngOnInit() {
 		// TODO: not nest observables
-        this.sub = this.route.params.subscribe(params => {
+        this.route.params.subscribe(params => {
             let id = Number.parseInt(params['id']);
             // TODO: error checking here
            	this.heroesService.getObservable()
-			  .flatMap((heroes:Array<Hero>) => {console.log(heroes);return Observable.from(heroes)})
-			  .first(function (h:Hero, idx:number, obs:Array<Hero>) {return h.id===id;})
-			  .subscribe((h:Hero) => {console.log(h);this.hero = h});
+			  .flatMap( (heroes:Array<Hero>) => Observable.from(heroes) )
+			  .first( function (h:Hero, idx:number, obs:Array<Hero>) {return h.id===id;} )
+			  .subscribe( (h:Hero) => this.hero = h );
           });
 	}
 }
