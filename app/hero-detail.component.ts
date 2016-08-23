@@ -30,7 +30,7 @@ export class HeroDetailComponent {
 	constructor(private route: ActivatedRoute, private heroesService: HeroesService) {}
 	
 	ngOnInit() {
-		// TODO: not nest observables
+		// TODO: not nest observables, turn it into a single observable
         this.route.params.subscribe(params => {
             let id = Number.parseInt(params['id']);
             // TODO: error checking here
