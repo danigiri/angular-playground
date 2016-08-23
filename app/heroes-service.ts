@@ -27,6 +27,7 @@ export class HeroesService {
 	getObservable() {
 		return Observable.create((o:Observer<Array<Hero>>) => {
 			o.next(HEROES);
+			o.complete();
 		});
 	} 
 }
