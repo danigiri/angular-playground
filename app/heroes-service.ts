@@ -24,10 +24,13 @@ export class HeroesService {
 		return HEROES; 
 	}
 
-	getObservable() {
+	getObservableArray() {
 		return Observable.create((o:Observer<Array<Hero>>) => {
 			o.next(HEROES);
 			o.complete();
 		});
+	} 
+	getObservable() {
+		return Observable.from(HEROES);
 	} 
 }

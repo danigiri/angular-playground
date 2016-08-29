@@ -1,7 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/observable/from';
+import 'rxjs/add/operator/first';
 
 import { Hero } from './hero';
 import { HeroesService } from './heroes-service';
@@ -31,16 +33,40 @@ export class HeroDetailComponent {
 	
 	ngOnInit() {
 		// TODO: not nest observables, turn it into a single observable
+		/*
+		 * This is effing ridiculous:
+		Observable.from(params)
+				  .withLatestFrom(this.heroesService.getObservable(), (p:[key:string]:string, hs:Array<Hero>) => {p, h}])
+				  .filter(({p:[key:string]:string, hs:Array<Hero>} , idx:number, obs:{p:[key:string]:string, hs:Array<Hero>}) => key==='id' )
+				  .map( (idm:[key:string]:string) => idm['id'] ),
+		*/	  
+       
+		/*
+		 * these are extremely convoluted ways to do a heroes[parseInt(params['id'])]
+		let heroes:Observable<Array<Heroes> = this.heroesService.getObservable();
+		this.route.params
+			.map(params => parseInt(params['id']) )
+			.withLatestFrom(heroes, (number, heroes) => )
+			
+		let heroes:Observable<Hero> = this.heroesService.getObservable();
+		this.route.params
+			.map( params => parseInt(params['id']) )
+			.withLatestFrom( heroes, (id:number, hero) => {id, hero} )
+			.filter( (pair:{id:number, hero:Hero}, i:number, o:) => hero.id === id )
+			.subscribe( (h:Hero) => this.hero = h );
+		*/
 		
-		//Observable.from(params).map(function (h:Hero, idx:number, obs:Array<Hero>) {return h.id===id;} )
-        this.route.params.subscribe(params => {
-            let id = Number.parseInt(params['id']);
-            // TODO: error checking here
-           	this.heroesService.getObservable()
-			  .flatMap( (heroes:Array<Hero>) => Observable.from(heroes) )
-			  .first( (h:Hero, idx:number, obs:Array<Hero>) => h.id===id  )
-			  //.first( function (h:Hero, idx:number, obs:Array<Hero>) {return h.id===id;} )
-			  .subscribe( (h:Hero) => this.hero = h );
-          });
+		// okay, this is a little less convoluted, but still...
+		this.route.params
+			// TODO: error checking here
+			.map( params => parseInt(params['id']) )
+			.subscribe( (id:number) => this.heroesService.getObservable()
+										.first( (h:Hero, idx:number, heroes:Observable<Hero>) => h.id === id)
+										.subscribe( (h:Hero) => this.hero = h ) 
+						);
+		
+		
+
+        
 	}
 }

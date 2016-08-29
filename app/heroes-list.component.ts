@@ -82,10 +82,11 @@ export class HeroesListComponent {
 	constructor(private heroesService: HeroesService) {}
 
 	ngOnInit() {
-	  this.heroesService.getObservable().subscribe(
+	  this.heroesService.getObservableArray().subscribe(
 			  (h:Array<Hero>) => this.heroes = h
 			  );
-    }
+
+	}
 	
 	onSelected(hero: Hero): void {
 		console.log(hero);
