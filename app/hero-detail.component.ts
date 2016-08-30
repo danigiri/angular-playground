@@ -2,7 +2,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/from';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/first';
 
 import { Hero } from './hero';
@@ -32,7 +34,7 @@ export class HeroDetailComponent {
 	constructor(private route: ActivatedRoute, private heroesService: HeroesService) {}
 
 	ngOnInit() {
-		// Option number 3, we can actually omit the parameters in first, this is a bit more compact
+		// Option number 1, we can actually omit the parameters in first(), this is a bit more compact
 		this.route.params
 			.map( params => parseInt(params['id']) )
 			.subscribe( (id:number) => this.heroesService.getObservable()
@@ -46,9 +48,20 @@ export class HeroDetailComponent {
 		this.route.params
 			.subscribe( params => id = parseInt(params['id']) );
 		this.heroesService.getObservable()
-			.first( (h:Hero, idx:number) => h.id === id)
+			.first( (h:Hero) => h.id === id)
 			.subscribe( (h:Hero) => this.hero = h );
 	}
 
+	ngOnInit3() {
+		// option that is more reactive and verbose but doesn't work yet
+		/*
+		this.route.params
+		.map( params => parseInt(params['id']) )
+		.withLatestFrom( this.heroesService.getObservable(), (id:number, h:Hero) => {id,h} )
+		.first( ({id:number, h:Hero}) => id==h.id )
+		.map( ({id:number, h:Hero}) => h )
+		.subscribe( (h:Hero) => this.hero = h );
+		*/
+	}
 	
 }
