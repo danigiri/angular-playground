@@ -30,16 +30,25 @@ export class HeroDetailComponent {
 	public hero: Hero;
 
 	constructor(private route: ActivatedRoute, private heroesService: HeroesService) {}
-	
+
 	ngOnInit() {
-		// okay, this is a little less convoluted, but still...
+		// Option number 3, we can actually omit the parameters in first, this is a bit more compact
 		this.route.params
-			// TODO: error checking here
 			.map( params => parseInt(params['id']) )
 			.subscribe( (id:number) => this.heroesService.getObservable()
-										.first( (h:Hero, idx:number, heroes:Observable<Hero>) => h.id === id)
-										.subscribe( (h:Hero) => this.hero = h ) 
-						);
+										.first( (h:Hero) => h.id === id)
+										.subscribe( (h:Hero) => this.hero = h ));
 	}
+	
+	ngOnInit2() {
+		// option that is less 'reactive' but somehow feels a bit more normal
+		let id:number;
+		this.route.params
+			.subscribe( params => id = parseInt(params['id']) );
+		this.heroesService.getObservable()
+			.first( (h:Hero, idx:number) => h.id === id)
+			.subscribe( (h:Hero) => this.hero = h );
+	}
+
 	
 }
