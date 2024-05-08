@@ -1,10 +1,28 @@
-		.myrow {
-			/*
+.myrow {
+	/*
 			*/
-			border: 1px solid red;
-		}
-		.mycol {
-		/*
+	border: 1px solid red;
+}
+
+.mycol {
+	/*
 		*/
-			border: 1px solid blue;
-		}
+	border: 1px solid blue;
+}
+
+
+/* not picked up */
+.column {
+	background-color: green !important;
+}
+
+#aaa {
+
+/*
+	background-color: green !important;
+	width: unset;
+	max-width:unset;
+	padding-right: unset;
+	padding-left: unset;
+*/
+}
