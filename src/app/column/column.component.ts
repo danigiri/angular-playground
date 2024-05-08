@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { ViewEncapsulation, Component } from '@angular/core';
 
 @Component({
-  selector: 'column',
+  selector: 'column-component',
   standalone: true,
   imports: [],
   template: `
@@ -12,6 +12,9 @@ import { Component } from '@angular/core';
 </div>
   `,
   styleUrl: './column.component.css'
+//,  encapsulation: ViewEncapsulation.Emulated,
+//,  encapsulation: ViewEncapsulation.None
+//,encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ColumnComponent {
 

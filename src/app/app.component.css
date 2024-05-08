@@ -16,9 +16,11 @@
 	background-color: green !important;
 }
 
+/* picked up */
 #aaa {
 
 /*
+	unsetting properies 
 	background-color: green !important;
 	width: unset;
 	max-width:unset;
@@ -26,3 +28,9 @@
 	padding-left: unset;
 */
 }
+
+/* this works but width is lost 
+.row > * {
+	width: unset !important;
+}
+*/
