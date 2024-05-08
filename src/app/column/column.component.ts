@@ -1,15 +1,13 @@
-import { ViewEncapsulation, Component } from '@angular/core';
+import { HostBinding, ViewEncapsulation, Component } from '@angular/core';
 
 @Component({
   selector: 'column-component',
   standalone: true,
   imports: [],
   template: `
-  <div class="col-4 mycol">
 	<div>
 		<img src="/assets/stuff.png" />
 	</div>
-</div>
   `,
   styleUrl: './column.component.css'
 //,  encapsulation: ViewEncapsulation.Emulated,
@@ -17,5 +15,11 @@ import { ViewEncapsulation, Component } from '@angular/core';
 //,encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ColumnComponent {
+
+
+@HostBinding('class.col-4') get row() {return true;}
+//@HostBinding('class.column') get column() {return true;}
+@HostBinding('class.mycol') get mycol() {return true;}
+
 
 }
